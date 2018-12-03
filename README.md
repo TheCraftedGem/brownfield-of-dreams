@@ -1,3 +1,5 @@
+[![Maintainability](https://api.codeclimate.com/v1/badges/abede9627f9976745dbd/maintainability)](https://codeclimate.com/github/wfischer42/brownfield-of-dreams/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/abede9627f9976745dbd/test_coverage)](https://codeclimate.com/github/wfischer42/brownfield-of-dreams/test_coverage)
+
 # Brownfield Of Dreams
 
 This is the base repo for a brownfield project used at Turing for Backend Mod 3.
