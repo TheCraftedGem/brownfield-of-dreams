@@ -12,14 +12,12 @@
   </section>
 </br>
    <section>
-   
+
   </section>
 
   <%= content_tag :div, id:"github_followers" do %>
     <% @facade.followers.each do |follower|%>
-      <%= content_tag :div, class: "follower" do %>
-        <%=follower.name%>
-      <%end%>
+      <%= link_to follower.name, follower.url, class: "follower"%>
     <%end%>
   <%end%>
 

@@ -16,8 +16,10 @@ class Admin::VideosController < Admin::BaseController
 
       video.save
 
+      binding.pry
       flash[:success] = "Successfully created video."
     rescue # Sorry about this. We should get more specific instead of swallowing all errors.
+      binding.pry
       flash[:error] = "Unable to create video."
     end
 

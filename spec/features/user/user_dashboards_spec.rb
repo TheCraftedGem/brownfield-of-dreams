@@ -2,29 +2,24 @@ require 'rails_helper'
 
 RSpec.feature "UserDashboards", type: :feature do
   describe 'dashboard' do
-  it 'user can see github followers', :vcr do
+    it 'user can see github followers', :vcr do
 
-    user = create(:user)
-    
-    visit login_path
+      user = create(:user)
 
-    fill_in 'session[email]', with: user.email
-    fill_in 'session[password]', with: user.password
+      visit login_path
 
-    click_on "Log In"
+      fill_in 'session[email]', with: user.email
+      fill_in 'session[password]', with: user.password
 
-    expect(current_path).to eq(dashboard_path)
+      click_on "Log In"
 
-    within("#github_followers") do
-    
-      within(first(".follower")) do 
-        expect(page).to have_content("averimj")
+      expect(current_path).to eq(dashboard_path)
+
+      within("#github_followers") do
+
+          expect(page).to have_link("BabyHughee",
+                                     href: "https://github.com/BabyHughee")
       end
     end
-#    When I visit /dashboard
-#   Then I should see a section for "Github"
-#   And under that section I should see another section titled "Followers"
-#   And I should see list of all followers with their handles linking to their Github profile 
   end
-end
 end
