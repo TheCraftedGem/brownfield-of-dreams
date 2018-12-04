@@ -10,4 +10,17 @@
   <section>
     <h1>Bookmarked Segments</h1>
   </section>
+</br>
+   <section>
+   
+  </section>
+
+  <%= content_tag :div, id:"github_followers" do %>
+    <% @facade.followers.each do |follower|%>
+      <%= content_tag :div, class: "follower" do %>
+        <%=follower.name%>
+      <%end%>
+    <%end%>
+  <%end%>
+
 </section>
