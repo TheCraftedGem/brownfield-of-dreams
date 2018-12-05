@@ -12,12 +12,18 @@
   </section>
 </br>
    <section>
-
+      <h1> Github </h1>
   </section>
 
   <%= content_tag :div, id:"github_followers" do %>
     <% @facade.followers.each do |follower|%>
       <%= link_to follower.name, follower.url, class: "follower"%>
+    <%end%>
+</br>
+    <%= content_tag :div, id:"github_repos" do %>
+      <% @facade.repos.each do |repo|%>
+        <%= link_to repo.name, repo.url, class: "repo"%>
+      <%end%>
     <%end%>
   <%end%>
 

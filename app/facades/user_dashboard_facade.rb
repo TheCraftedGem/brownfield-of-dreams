@@ -11,4 +11,10 @@ class UserDashboardFacade
     end
   end
 
+  def repos
+    @_repos ||= @service.get_repos.map do |follower_data|
+      Follower.new(follower_data)
+    end
+  end
+
 end
