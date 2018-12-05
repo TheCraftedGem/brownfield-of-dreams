@@ -2,7 +2,6 @@ class UserDashboardFacade
   attr_reader :followers
   def initialize(user)
     @user = user
-    @service = GithubService.new(user)
   end
 
   def followers
@@ -12,8 +11,16 @@ class UserDashboardFacade
   end
 
   def repos
-    @_repos ||= @service.get_repos.map do |follower_data|
+    @_repos ||= @service.get_repos[0..4].map do |follower_data|
       Follower.new(follower_data)
+    end
+  end
+
+  def service 
+    if user.github_key
+      @service ||= GithubService.new(user) 
+    else 
+      NullKey.new
     end
   end
 
