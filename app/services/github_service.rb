@@ -1,11 +1,14 @@
 class GithubService
   def initialize(user)
     @key = user.github_key
-    binding.pry
   end
 
   def get_followers
     get_json("/user/followers")
+  end
+
+  def get_repos
+    get_json("/user/repos")
   end
 
   private
@@ -16,7 +19,7 @@ class GithubService
   end
 
   def conn
-    Faraday.new("https://api.github.com") do |faraday|
+    Faraday.new(url: "https://api.github.com") do |faraday|
       faraday.headers["Authorization"] = @key
       faraday.adapter Faraday.default_adapter
     end

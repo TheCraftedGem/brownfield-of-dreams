@@ -12,12 +12,21 @@
   </section>
 </br>
    <section>
-
+      <h1> Github Followers Count: <%="#{@facade.followers.count}"%> </h1>
   </section>
 
   <%= content_tag :div, id:"github_followers" do %>
     <% @facade.followers.each do |follower|%>
       <%= link_to follower.name, follower.url, class: "follower"%>
+      </br>
+    <%end%>
+</br>
+    <h1>Github Repos </h1>
+    <%= content_tag :div, id:"github_repos" do %>
+      <% @facade.repos.each do |repo|%>
+        <%= link_to repo.name, repo.url, class: "repo"%>
+        </br>
+      <%end%>
     <%end%>
   <%end%>
 
