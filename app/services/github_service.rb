@@ -1,6 +1,7 @@
 class GithubService
   def initialize(user)
-    @key = ENV["GITHUB_API_KEY"]
+    @key = user.github_key
+    binding.pry
   end
 
   def get_followers

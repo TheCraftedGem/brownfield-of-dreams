@@ -5,6 +5,8 @@ RSpec.feature "UserDashboards", type: :feature do
     it 'user can see github followers', :vcr do
 
       user = create(:user)
+      key = create(:api_key, user: user)
+      binding.pry
 
       visit login_path
 
