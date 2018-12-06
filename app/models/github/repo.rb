@@ -1,8 +1,8 @@
-class Follower
+class Github::Repo
   attr_reader :name,
               :url
   def initialize(data)
-    @name = data[:login]
+    @name = data[:name]
     @url = data[:html_url]
   end
 end

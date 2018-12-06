@@ -1,5 +1,4 @@
-class GithubAdapter
-  include ServiceHelper
+class Github::ServiceAdapter < ServiceAdapter
 
   def initialize(user)
     @token = user.github_key
@@ -11,15 +10,15 @@ class GithubAdapter
   end
 
   def followers
-    @_followers ||= service_call(:followers)
+    @_followers ||= service_call(:followers, Github::User)
   end
 
   def repos
-    @_repos ||= service_call(:repos)
+    @_repos ||= service_call(:repos, Github::Repo)
   end
 
   def following
-    @_following ||= service_call(:following)
+    @_following ||= service_call(:following, Github::User)
   end
 
   private
