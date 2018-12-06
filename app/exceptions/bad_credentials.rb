@@ -1,0 +1,2 @@
+class BadCredentials < StandardError
+end
