@@ -9,7 +9,15 @@ class User < ApplicationRecord
   enum role: [:default, :admin]
   has_secure_password
 
-  def github_key
-    self.github_profile.token if self.github_profile
+  def self.find_with_profiles(user_id)
+    select('users.*,
+            github_profiles.token AS github_key,
+            github_profiles.uid AS github_uid,
+            github_profiles.img_url AS img_url,
+            github_profiles.username AS github_username')
+    .left_outer_joins(:github_profile)
+    .where(id: user_id)
+    .limit(1)
+    .first
   end
 end

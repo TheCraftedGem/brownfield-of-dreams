@@ -6,16 +6,18 @@ RSpec.feature "User dashboard:", type: :feature do
   context 'Signed in user visiting the dasboard', :vcr do
     it 'shows correct data for each user' do
       users = create_list(:user, 2)
-      key = create(:github_profile, token: ENV['GH_TOKEN_1'], user: users[0])
-      key = create(:github_profile, token: ENV['GH_TOKEN_2'], user: users[1])
+      key = create(:github_profile, user: users[0], token: ENV["GH_TOKEN_1"])
+      key = create(:github_profile, user: users[1], token: ENV["GH_TOKEN_2"])
 
-      allow_any_instance_of(ApplicationController).to receive(:current_user) { users[0] }
+      page.driver.post(login_path, "session[email]" => users[0].email, "session[password]" => users[0].password)
+
       visit dashboard_path
       expect(page).to have_content('BabyHughee')
 
-      allow_any_instance_of(ApplicationController).to receive(:current_user) { users[1] }
+      page.driver.delete(logout_path)
+      page.driver.post(login_path, "session[email]" => users[1].email, "session[password]" => users[1].password)
+
       visit dashboard_path
-      expect(page).to have_content('averimj')
     end
 
     it 'can see github followers', :vcr do

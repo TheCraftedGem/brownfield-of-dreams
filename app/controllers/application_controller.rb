@@ -7,8 +7,9 @@ class ApplicationController < ActionController::Base
   add_flash_types :success
 
   def current_user
-    # TODO: Create a user finder that also selects the github token and aliases it! 
-    @current_user ||= User.find(session[:user_id]) if session[:user_id]
+    # TODO: Create a user finder that also selects the github token and aliases it!
+    @current_user ||= User.find_with_profiles(session[:user_id]) if session[:user_id]
+    # @current_user ||= User.find(session[:user_id]) if session[:user_id]
   end
 
   def find_bookmark(id)
