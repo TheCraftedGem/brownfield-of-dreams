@@ -28,6 +28,13 @@
         </br>
       <%end%>
     <%end%>
+       <h1>Github Users You're Following </h1>
+    <%= content_tag :div, id:"github_following" do %>
+      <% @facade.following.each do |followin|%>
+        <%= link_to followin.name, followin.url, class: "following"%>
+        </br>
+      <%end%>
+    <%end%>
   <%end%>
 
 </section>

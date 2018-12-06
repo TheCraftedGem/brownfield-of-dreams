@@ -46,7 +46,29 @@ RSpec.feature "User dashboard:", type: :feature do
       within '#github_repos' do
         expect(page).to have_link("2win_playlist", href: "https://github.com/wfischer42/2win_playlist")
       end
-
     end
+
+    it "can see github following", :vcr do
+      repos = File.open("./spec/fixtures/following.json")
+      stub_request(:get, "https://api.github.com/user/following")
+        .to_return({body: repos})
+
+      user = create(:user)
+      key = create(:api_key, user: user)
+
+      visit login_path
+
+      fill_in 'session[email]', with: user.email
+      fill_in 'session[password]', with: user.password
+
+      click_on "Log In"
+
+      expect(current_path).to eq(dashboard_path)
+      within '#github_following' do
+        expect(page).to have_link("moxie0", href: "https://github.com/moxie0")
+      end
+    end
+
+
   end
 end
