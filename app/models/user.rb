@@ -11,6 +11,8 @@ class User < ApplicationRecord
   has_secure_password
 
   def github_key
-    self.api_keys.where(source: :github).first.key
+    if token = self.api_keys.find_by(source: :github)
+      token.key
+    end
   end
 end
