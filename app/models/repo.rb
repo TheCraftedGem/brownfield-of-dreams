@@ -1,4 +1,4 @@
-class Repo 
+class Repo
   attr_reader :name,
               :url
   def initialize(data)
