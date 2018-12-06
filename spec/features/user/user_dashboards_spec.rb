@@ -6,8 +6,8 @@ RSpec.feature "User dashboard:", type: :feature do
   context 'Signed in user visiting the dasboard', :vcr do
     it 'shows correct data for each user' do
       users = create_list(:user, 2)
-      key = create(:api_key, key: ENV['GH_TOKEN_1'], user: users[0])
-      key = create(:api_key, key: ENV['GH_TOKEN_2'], user: users[1])
+      key = create(:github_profile, token: ENV['GH_TOKEN_1'], user: users[0])
+      key = create(:github_profile, token: ENV['GH_TOKEN_2'], user: users[1])
 
       allow_any_instance_of(ApplicationController).to receive(:current_user) { users[0] }
       visit dashboard_path
@@ -25,7 +25,7 @@ RSpec.feature "User dashboard:", type: :feature do
         .to_return({body: followers})
 
       user = create(:user)
-      key = create(:api_key, user: user)
+      key = create(:github_profile, user: user)
 
       visit login_path
 
@@ -47,7 +47,7 @@ RSpec.feature "User dashboard:", type: :feature do
         .to_return({body: repos})
 
       user = create(:user)
-      key = create(:api_key, user: user)
+      key = create(:github_profile, user: user)
 
       visit login_path
 
@@ -68,7 +68,7 @@ RSpec.feature "User dashboard:", type: :feature do
         .to_return({body: repos})
 
       user = create(:user)
-      key = create(:api_key, user: user)
+      key = create(:github_profile, user: user)
 
       visit login_path
 
