@@ -1,8 +1,7 @@
 class User < ApplicationRecord
   has_many :user_videos
   has_many :videos, through: :user_videos
-  has_many :api_keys
-  delegate :details, to: :github_key, prefix: true
+  has_one :github_profile
 
   validates :email, uniqueness: true, presence: true
   validates_presence_of :password
@@ -11,8 +10,6 @@ class User < ApplicationRecord
   has_secure_password
 
   def github_key
-    if token = self.api_keys.find_by(source: :github)
-      token.key
-    end
+    self.github_profile.token if self.github_profile
   end
 end
