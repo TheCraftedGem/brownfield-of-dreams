@@ -4,6 +4,7 @@ class GithubProfile
   def initialize(user)
     @token = user.github_key
     @_followers = nil
+    @_following = nil
     @_repos = nil
     @_service = nil
     @_null_service = nil
@@ -15,6 +16,10 @@ class GithubProfile
 
   def repos
     @_repos ||= service_call(:repos)
+  end
+
+  def following
+    @_following ||= service_call(:following)
   end
 
   private

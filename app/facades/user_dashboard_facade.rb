@@ -12,4 +12,8 @@ class UserDashboardFacade
   def repos
     github_profile.repos
   end
+
+  def following
+    github_profile.following
+  end
 end
