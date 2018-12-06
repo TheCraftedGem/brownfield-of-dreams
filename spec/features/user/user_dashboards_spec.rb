@@ -1,8 +1,10 @@
 require 'rails_helper'
 
-RSpec.feature "UserDashboards", type: :feature do
-  describe 'dashboard' do
-    it 'user can see github followers', :vcr do
+# TODO: Create test to make sure multiple users with different github keys see the right information.
+
+RSpec.feature "User dashboard:", type: :feature do
+  context 'Signed in user visiting the dasboard' do
+    it 'can see github followers', :vcr do
 
       followers = File.open("./spec/fixtures/followers.json")
       stub_request(:get, "https://api.github.com/user/followers")
