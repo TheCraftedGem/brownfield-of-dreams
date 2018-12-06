@@ -18,7 +18,9 @@ class GithubService
     def get_json(url)
       response = conn.get(url)
       parsed = JSON.parse(response.body, symbolize_names: true)
-      raise parsed[:message] if parsed.class == Hash && parsed[:message]
+      if parsed.class == Hash && parsed[:message]
+        raise BadCredentials
+      end
       parsed
     end
 

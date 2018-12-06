@@ -3,7 +3,21 @@ require 'rails_helper'
 # TODO: Create test to make sure multiple users with different github keys see the right information.
 
 RSpec.feature "User dashboard:", type: :feature do
-  context 'Signed in user visiting the dasboard' do
+  context 'Signed in user visiting the dasboard', :vcr do
+    it 'shows correct data for each user' do
+      users = create_list(:user, 2)
+      key = create(:api_key, key: ENV['GH_TOKEN_1'], user: users[0])
+      key = create(:api_key, key: ENV['GH_TOKEN_2'], user: users[1])
+
+      allow_any_instance_of(ApplicationController).to receive(:current_user) { users[0] }
+      visit dashboard_path
+      expect(page).to have_content('BabyHughee')
+
+      allow_any_instance_of(ApplicationController).to receive(:current_user) { users[1] }
+      visit dashboard_path
+      expect(page).to have_content('averimj')
+    end
+
     it 'can see github followers', :vcr do
 
       followers = File.open("./spec/fixtures/followers.json")
@@ -68,7 +82,5 @@ RSpec.feature "User dashboard:", type: :feature do
         expect(page).to have_link("moxie0", href: "https://github.com/moxie0")
       end
     end
-
-
   end
 end

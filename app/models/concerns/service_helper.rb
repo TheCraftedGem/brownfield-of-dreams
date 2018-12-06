@@ -15,7 +15,7 @@ module ServiceHelper
     def attempt_call(type)
       begin
         service.get(type)
-      rescue => detail
+      rescue BadCredentials
         nullify_service
         service.get(type)
       end
