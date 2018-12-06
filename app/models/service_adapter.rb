@@ -1,12 +1,9 @@
-module ServiceHelper
-  extend ActiveSupport::Concern
-
+class ServiceAdapter
   private
     attr_reader :service, :null_service
 
-    def service_call(type)
+    def service_call(type, call_class)
       response = attempt_call(type)
-      call_class = type.to_s.camelize.singularize.constantize
       response.map do |data|
         call_class.new(data)
       end

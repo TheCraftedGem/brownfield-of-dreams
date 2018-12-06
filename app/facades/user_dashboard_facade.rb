@@ -2,7 +2,7 @@ class UserDashboardFacade
   attr_reader :followers, :user, :github_adapter
   def initialize(user)
     @user = user
-    @github_adapter = GithubAdapter.new(user)
+    @github_adapter = Github::ServiceAdapter.new(user)
   end
 
   def followers
