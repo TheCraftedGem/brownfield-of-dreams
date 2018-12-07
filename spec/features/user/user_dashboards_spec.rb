@@ -27,7 +27,7 @@ RSpec.feature "User dashboard:", type: :feature do
         .to_return({body: followers})
 
       user = create(:user)
-      key = create(:github_profile, user: user)
+      key = create(:github_profile, user: user, token: ENV["GH_TOKEN_2"])
 
       visit login_path
 
@@ -49,7 +49,7 @@ RSpec.feature "User dashboard:", type: :feature do
         .to_return({body: repos})
 
       user = create(:user)
-      key = create(:github_profile, user: user)
+      key = create(:github_profile, user: user, token: ENV["GH_TOKEN_1"])
 
       visit login_path
 
@@ -70,7 +70,7 @@ RSpec.feature "User dashboard:", type: :feature do
         .to_return({body: repos})
 
       user = create(:user)
-      key = create(:github_profile, user: user)
+      key = create(:github_profile, user: user, token: ENV["GH_TOKEN_2"])
 
       visit login_path
 
