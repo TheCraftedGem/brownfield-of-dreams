@@ -88,18 +88,24 @@ RSpec.feature "User dashboard:", type: :feature do
       end
     end
 
-    it "can log in with oauth", :vcr do 
+    it 'can connect to github' do
 
-      users = create_list(:user, 2) 
-
-      visit '/dashboard'
-      expect(page).to have_button("Connect on GitHub")
-
-      click_button "Connect to Github"
-    
-      expect(current_page).to not_have_button("Connect on Github")
-      
-
-
+      stub_omniauth
+      user_1 = create(:user)
+  
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user_1)
+  
+      visit dashboard_path
+      click_link "Connect to Github"
+  
+  
+      expect(user_1.token).to eq('12345')
+      expect(page).to have_content('Github Information')
+    end
+  
+    def stub_omniauth
+      OmniAuth.config.test_mode = true
+      OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new({'credentials' => {'token' => '12345'}})
+    end
   end
 end
