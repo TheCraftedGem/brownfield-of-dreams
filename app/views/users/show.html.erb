@@ -7,6 +7,11 @@
     <li> <%= current_user.first_name  %> <%= current_user.last_name %> </li>
     <li> <%= current_user.email%> </li>
   </ul>
+  <% if current_user.github_profile %>
+    <%= render 'github/users/show'%>
+  <% else %>
+    <%= link_to "Connect to Github", '/auth/github' %>
+  <% end %>
   <section>
     <h1>Bookmarked Segments</h1>
   </section>

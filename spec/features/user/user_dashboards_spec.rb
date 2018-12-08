@@ -92,20 +92,28 @@ RSpec.feature "User dashboard:", type: :feature do
 
       stub_omniauth
       user_1 = create(:user)
-  
-      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user_1)
-  
+      user_2 = create(:user)
+
+      page.driver.post(login_path, "session[email]" => user_1.email, "session[password]" => user_1.password)
+
       visit dashboard_path
       click_link "Connect to Github"
-  
-  
-      expect(user_1.token).to eq('12345')
-      expect(page).to have_content('Github Information')
+
+      expect(user_1.github_profile.token).to eq('12345')
+      expect(page).to have_content("Connected to Github as #{user_1.github_profile.username}")
+      expect(page).to_not have_link('Connect to Github')
     end
-  
+
     def stub_omniauth
       OmniAuth.config.test_mode = true
-      OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new({'credentials' => {'token' => '12345'}})
+      OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash
+        .new( { 'provider'=>'github',
+                'uid' => '54321',
+                'credentials' => { 'token' => '12345' },
+                'info'=> {'nickname'=> 'jschmoe',
+                          'email'=> 'jschmoe@email',
+                          'image'=> 'https://image.url',
+                          'urls'=>{ 'GitHub'=>'https://github.com/user1'} } } )
     end
   end
 end
