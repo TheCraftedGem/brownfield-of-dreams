@@ -3,6 +3,9 @@ require 'rails_helper'
 # TODO: Create test to make sure multiple users with different github keys see the right information.
 
 RSpec.feature "User dashboard:", type: :feature do
+  before do
+    Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:github]
+  end
   context 'Signed in user visiting the dasboard', :vcr do
     it 'shows correct data for each user' do
       users = create_list(:user, 2)
@@ -84,5 +87,19 @@ RSpec.feature "User dashboard:", type: :feature do
         expect(page).to have_link("moxie0", href: "https://github.com/moxie0")
       end
     end
+
+    it "can log in with oauth", :vcr do 
+
+      users = create_list(:user, 2) 
+
+      visit '/dashboard'
+      expect(page).to have_button("Connect on GitHub")
+
+      click_button "Connect to Github"
+    
+      expect(current_page).to not_have_button("Connect on Github")
+      
+
+
   end
 end
