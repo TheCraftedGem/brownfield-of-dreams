@@ -6,14 +6,12 @@ Rails.application.routes.draw do
     end
   end
 
-
-
   root 'welcome#index'
   get 'tags/:tag', to: 'welcome#index', as: :tag
   get '/register', to: 'users#new'
 
   namespace :admin do
-    get "/dashboard", to: "dashboard#show"
+    get '/dashboard', to: "dashboard#show"
     resources :tutorials, only: [:create, :edit, :update, :destroy, :new] do
       resources :videos, only: [:create]
     end
@@ -33,6 +31,8 @@ Rails.application.routes.draw do
   get '/dashboard', to: 'users#show'
   get '/about', to: 'about#show'
   get '/get_started', to: 'get_started#show'
+  get '/auth/github/callback', to: 'github_profiles#create'
+  delete '/auth/github/cancel', to: 'github_profiles#destroy'
 
   # Is this being used?
   get '/video', to: 'video#show'

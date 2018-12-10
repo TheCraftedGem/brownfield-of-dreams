@@ -8,6 +8,7 @@ class YoutubeService
   private
 
   def get_json(url, params)
+
     response = conn.get("youtube/v3/videos", params)
     JSON.parse(response.body, symbolize_names: true)
   end

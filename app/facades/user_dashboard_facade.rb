@@ -9,8 +9,8 @@ class UserDashboardFacade
     github_adapter.followers
   end
 
-  def repos
-    github_adapter.repos
+  def repos(quantity: 5)
+    github_adapter.repos.last(quantity) if github_adapter.repos
   end
 
   def following

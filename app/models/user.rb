@@ -14,10 +14,12 @@ class User < ApplicationRecord
             github_profiles.token AS github_key,
             github_profiles.uid AS github_uid,
             github_profiles.img_url AS img_url,
-            github_profiles.username AS github_username')
+            github_profiles.username AS github_username,
+            github_profiles.url AS github_url')
     .left_outer_joins(:github_profile)
     .where(id: user_id)
     .limit(1)
     .first
   end
+  # TODO: Create methods for the github info for users that aren't found with the 'find_with_profiles' method (e.g. def github_key)
 end

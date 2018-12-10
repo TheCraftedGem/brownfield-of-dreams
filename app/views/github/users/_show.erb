@@ -1,0 +1,4 @@
+<%= image_tag(current_user.img_url, size: "256", id: "profile_image") %>
+<br />
+GitHub Account: <%= link_to current_user.github_username, current_user.github_url%>
+<%=button_to "Disconnect GitHub Account", '/auth/github/cancel', method: 'delete', class: "btn btn-primary mb1 bg-teal"%>
