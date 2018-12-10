@@ -97,7 +97,7 @@ RSpec.feature "User dashboard:", type: :feature do
       page.driver.post(login_path, "session[email]" => user_1.email, "session[password]" => user_1.password)
 
       visit dashboard_path
-      click_link "Connect to Github"
+      click_button "Connect to Github"
 
       expect(user_1.github_profile.token).to eq('12345')
       expect(page).to have_content("Connected to Github as #{user_1.github_profile.username}")

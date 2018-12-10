@@ -33,7 +33,7 @@ Rails.application.routes.draw do
   get '/dashboard', to: 'users#show'
   get '/about', to: 'about#show'
   get '/get_started', to: 'get_started#show'
-  get  "/auth/github/callback", to: 'github_profiles#create'
+  get  "/auth/:provider/callback", to: 'github_profiles#create'
 
   # Is this being used?
   get '/video', to: 'video#show'

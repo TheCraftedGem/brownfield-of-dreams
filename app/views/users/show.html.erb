@@ -10,7 +10,7 @@
   <% if current_user.github_profile %>
     <%= render 'github/users/show'%>
   <% else %>
-    <%= link_to "Connect to Github", '/auth/github' %>
+    <%=button_to "Connect on GitHub", '/auth/github', method: 'get', class: "btn btn-primary mb1 bg-teal"%>  
   <% end %>
   <section>
     <h1>Bookmarked Segments</h1>
