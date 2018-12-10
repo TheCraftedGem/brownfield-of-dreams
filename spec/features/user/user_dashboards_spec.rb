@@ -63,7 +63,7 @@ RSpec.feature "User dashboard:", type: :feature do
 
       expect(current_path).to eq(dashboard_path)
       within '#github_repos' do
-        expect(page).to have_link("2win_playlist", href: "https://github.com/wfischer42/2win_playlist")
+        expect(page).to have_link("LaughTracks", href: "https://github.com/wfischer42/LaughTracks")
       end
     end
 
@@ -97,11 +97,24 @@ RSpec.feature "User dashboard:", type: :feature do
       page.driver.post(login_path, "session[email]" => user_1.email, "session[password]" => user_1.password)
 
       visit dashboard_path
-      click_button "Connect to Github"
+      click_button "Connect on GitHub"
 
-      expect(user_1.github_profile.token).to eq('12345')
-      expect(page).to have_content("Connected to Github as #{user_1.github_profile.username}")
-      expect(page).to_not have_link('Connect to Github')
+      expect(user_1.github_profile.token).to eq('TOKEN 12345')
+      expect(page).to have_content("GitHub Account: #{user_1.github_profile.username}")
+      expect(page).to_not have_button('Connect on GitHub')
+    end
+
+    it 'can disconnect from github' do
+      stub_omniauth
+      user_1 = create(:user)
+      user_2 = create(:user)
+
+      page.driver.post(login_path, "session[email]" => user_1.email, "session[password]" => user_1.password)
+      visit dashboard_path
+      click_button "Connect on GitHub"
+      click_button "Disconnect GitHub Account"
+
+      expect(page).to have_button('Connect on GitHub')
     end
 
     def stub_omniauth

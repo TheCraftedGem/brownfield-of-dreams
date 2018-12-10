@@ -1,11 +1,11 @@
 class GithubProfile < ApplicationRecord
   belongs_to :user
 
-  def self.link(auth_hash, user)
+  def self.create_for_user(auth_hash, user)
     token = "TOKEN #{auth_hash[:credentials][:token]}"
     username = auth_hash[:info][:nickname]
     img_url = auth_hash[:info][:image]
-    url = auth_hash[:info][:urls][:github]
+    url = auth_hash[:info][:urls][:GitHub]
     profile = self.create_with(user: user,
                               token: token,
                               username: username,

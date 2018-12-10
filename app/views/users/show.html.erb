@@ -10,7 +10,7 @@
   <% if current_user.github_profile %>
     <%= render 'github/users/show'%>
   <% else %>
-    <%=button_to "Connect on GitHub", '/auth/github', method: 'get', class: "btn btn-primary mb1 bg-teal"%>  
+    <%=button_to "Connect on GitHub", '/auth/github', method: 'get', class: "btn btn-primary mb1 bg-teal"%>
   <% end %>
   <section>
     <h1>Bookmarked Segments</h1>
@@ -28,7 +28,7 @@
 </br>
     <h1>Github Repos </h1>
     <%= content_tag :div, id:"github_repos" do %>
-      <% @facade.repos.each do |repo|%>
+      <% @facade.repos(quantity: 5).each do |repo|%>
         <%= link_to repo.name, repo.url, class: "repo"%>
         </br>
       <%end%>
