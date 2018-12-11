@@ -2,6 +2,7 @@ class GithubProfilesController < ApplicationController
   def create
     GithubProfile.create_for_user(auth_hash, current_user)
     redirect_to dashboard_path
+
   end
 
   def destroy

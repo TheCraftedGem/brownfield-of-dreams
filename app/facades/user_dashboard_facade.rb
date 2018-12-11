@@ -16,4 +16,12 @@ class UserDashboardFacade
   def following
     github_adapter.following
   end
+
+  def suggested_friendships 
+    github_adapter.connection_uids
+  end
+  
+  def friends 
+    user.friends
+  end
 end

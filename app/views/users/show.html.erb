@@ -20,9 +20,33 @@
       <h1> Github Followers Count: <%="#{@facade.followers.count}"%> </h1>
   </section>
 
+  <section class="suggested_friendships">
+ 
+    <% @facade.suggested_friendships.each do |user|%>
+      <%= "#{user.first_name} #{user.last_name}"%>
+      </br>
+
+      <%= "Github Account: " %>
+      <%= link_to user.username, user.url%>
+</br>
+       <%= button_to 'Add as Friend',  create_friendship_path(id: user.id), method: :post, class: "btn btn-primary mb1 bg-teal" %>
+    <%end%>
+  </section>
+
+
+<section class="friendships">
+  <% @facade.friends && @facade.friends.each do |friend|%>
+    <%= "#{friend.first_name} #{friend.last_name}"%>
+    </br>
+    <%= "Github Account: " %>
+    <%= link_to friend.username, friend.url%>
+  </br>
+  <%end%>
+</section>
+
   <%= content_tag :div, id:"github_followers" do %>
     <% @facade.followers.each do |follower|%>
-      <%= link_to follower.name, follower.url, class: "follower"%>
+      <%= link_to follower.username, follower.url, class: "follower"%>
       </br>
     <%end%>
 </br>
@@ -35,8 +59,8 @@
     <%end%>
        <h1>Github Users You're Following </h1>
     <%= content_tag :div, id:"github_following" do %>
-      <% @facade.following.each do |followin|%>
-        <%= link_to followin.name, followin.url, class: "following"%>
+      <% @facade.following.each do |following|%>
+        <%= link_to following.username, following.url, class: "following"%>
         </br>
       <%end%>
     <%end%>
