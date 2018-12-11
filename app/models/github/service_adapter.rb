@@ -21,8 +21,13 @@ class Github::ServiceAdapter < ServiceAdapter
     @_following ||= service_call(:following, Github::User)
   end
 
+  def connection_uids 
+    uids = (followers.map { |f| f.uid } + following.map { |f| f.uid }).uniq
+    User.find_users_with_github_profiles(uids)
+  end
+
   private
-    attr_reader :token, :service, :null_service
+    attr_reader :token, :service, :null_service, :user
 
     def service
       @_service ||= GithubService.validate(token) || null_service
