@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get 'friendships/create'
   namespace :api do
     namespace :v1 do
       resources :tutorials, only:[:show, :index]
@@ -34,7 +33,6 @@ Rails.application.routes.draw do
   get '/get_started', to: 'get_started#show'
   get '/auth/github/callback', to: 'github_profiles#create'
   delete '/auth/github/cancel', to: 'github_profiles#destroy'
-  post '/create_friendship', to: 'friendships#create'
 
   # Is this being used?
   get '/video', to: 'video#show'

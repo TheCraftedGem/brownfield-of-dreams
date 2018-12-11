@@ -89,6 +89,7 @@ RSpec.feature "User dashboard:", type: :feature do
     end
 
     it 'can connect to github' do
+
       stub_omniauth
       user_1 = create(:user)
       user_2 = create(:user)
@@ -116,54 +117,6 @@ RSpec.feature "User dashboard:", type: :feature do
       expect(page).to have_button('Connect on GitHub')
     end
 
-
-    it 'can see suggested friendships' do
-      followers = File.open("./spec/fixtures/followers.json")
-      stub_request(:get, "https://api.github.com/user/followers")
-        .to_return({body: followers})
-
-
-      user_1 = create(:user)
-      user_2 = create(:user)
-
-      github_profile_1 = create(:github_profile, user: user_1, uid: 16843426, token: ENV["GH_TOKEN_1"])
-      github_profile_2 = create(:github_profile, user: user_2, uid: 38091448, token: ENV["GH_TOKEN_2"])
-
-      page.driver.post(login_path, "session[email]" => user_2.email, "session[password]" => user_2.password)
-
-      visit dashboard_path
-
-      within ".suggested_friendships" do 
-        expect(page).to have_link("Add as Friend")
-        expect(page).to have_content(user_1.first_name)
-      end
-    end
-
-    it 'can add friend' do
-      followers = File.open("./spec/fixtures/followers.json")
-      stub_request(:get, "https://api.github.com/user/followers")
-        .to_return({body: followers})
-
-
-      user_1 = create(:user)
-      user_2 = create(:user)
-
-      github_profile_1 = create(:github_profile, user: user_1, uid: 16843426, token: ENV["GH_TOKEN_1"])
-      github_profile_2 = create(:github_profile, user: user_2, uid: 38091448, token: ENV["GH_TOKEN_2"])
-
-      page.driver.post(login_path, "session[email]" => user_2.email, "session[password]" => user_2.password)
-
-      visit dashboard_path
-
-      click_on "Add as Friend"
-
-      expect(page).to have_current_path(dashboard_path)
-      within ".friendships" do 
-        expect(page).to_not have_link("Add as Friend")
-        expect(page).to have_content(user_1.first_name)
-      end
-    end
-
     def stub_omniauth
       OmniAuth.config.test_mode = true
       OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash
@@ -177,4 +130,3 @@ RSpec.feature "User dashboard:", type: :feature do
     end
   end
 end
-

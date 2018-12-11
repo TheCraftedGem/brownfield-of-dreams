@@ -6,12 +6,12 @@ class GithubProfile < ApplicationRecord
     username = auth_hash[:info][:nickname]
     img_url = auth_hash[:info][:image]
     url = auth_hash[:info][:urls][:GitHub]
-  
     profile = self.create_with(user: user,
                               token: token,
                               username: username,
                               img_url: img_url,
                               url: url)
-                  .find_or_create_by(uid: auth_hash[:uid])
+                  .find_or_create_by(user_id: user.id)
+
   end
 end
