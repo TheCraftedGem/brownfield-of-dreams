@@ -2,7 +2,7 @@ class User < ApplicationRecord
   has_many :user_videos
   has_many :videos, through: :user_videos
   has_one :github_profile
-  #IM NOT YOUR BUDDY, FRIEND! 
+  #IM NOT YOUR BUDDY, FRIEND!
   has_many :amigo_friends, foreign_key: :buddy_id, class_name: "Friendship"
   has_many :buddy_friends, foreign_key: :amigo_id, class_name: "Friendship"
   #IM NOT YOUR FRIEND, BUDDY!
@@ -36,13 +36,21 @@ class User < ApplicationRecord
                   github_profiles.username AS username,
                   github_profiles.url AS url')
         .joins(:github_profile)
-        .where(github_profiles: {uid: uids})   
+        .where(github_profiles: {uid: uids})
   end
 
-  def friends 
-    binding.pry
+  def friends
+    # TODO: Refactor to make one query
+    @_friends ||= (amigos + buddies).uniq
   end
 
+  def friend_ids
+    @_friend_ids ||= (amigos.ids + buddies.ids).uniq
+  end
+
+  def has_friend?(id)
+    value = friend_ids.include?(id)
+  end
 
   # TODO: Create methods for the github info for users that aren't found with the 'find_with_profiles' method (e.g. def github_key)
 end

@@ -1,5 +1,6 @@
 <section class="dashboard-main">
   <h1> <%= current_user.first_name %>'s Dashboard </h1>
+  
 
   <%= button_to 'Log Out', logout_path, method: 'delete', class: "btn btn-primary mb1 bg-teal" %>
   <h3>Account Details</h3>
@@ -16,54 +17,49 @@
     <h1>Bookmarked Segments</h1>
   </section>
 </br>
-   <section>
-      <h1> Github Followers Count: <%="#{@facade.followers.count}"%> </h1>
-  </section>
-
-  <section class="suggested_friendships">
- 
-    <% @facade.suggested_friendships.each do |user|%>
-      <%= "#{user.first_name} #{user.last_name}"%>
-      </br>
-
-      <%= "Github Account: " %>
-      <%= link_to user.username, user.url%>
-</br>
-       <%= button_to 'Add as Friend',  create_friendship_path(id: user.id), method: :post, class: "btn btn-primary mb1 bg-teal" %>
-    <%end%>
-  </section>
 
 
 <section class="friendships">
+  <h1>Your Friends</h1>
   <% @facade.friends && @facade.friends.each do |friend|%>
     <%= "#{friend.first_name} #{friend.last_name}"%>
     </br>
     <%= "Github Account: " %>
-    <%= link_to friend.username, friend.url%>
+    <%= link_to friend.github_profile.username, friend.github_profile.url%>
   </br>
   <%end%>
 </section>
 
+<section class="github">
+  <h1>You have <%="#{@facade.followers.count}"%> GitHub followers</h1>
   <%= content_tag :div, id:"github_followers" do %>
     <% @facade.followers.each do |follower|%>
       <%= link_to follower.username, follower.url, class: "follower"%>
       </br>
-    <%end%>
-</br>
-    <h1>Github Repos </h1>
-    <%= content_tag :div, id:"github_repos" do %>
-      <% @facade.repos(quantity: 5).each do |repo|%>
-        <%= link_to repo.name, repo.url, class: "repo"%>
-        </br>
-      <%end%>
-    <%end%>
-       <h1>Github Users You're Following </h1>
-    <%= content_tag :div, id:"github_following" do %>
-      <% @facade.following.each do |following|%>
-        <%= link_to following.username, following.url, class: "following"%>
-        </br>
-      <%end%>
+      <% if follower.is_user? && !current_user.has_friend?(follower.id) %>
+        <%= button_to('Add as Friend', create_friendship_path(id: follower.id), method: :post, class: "btn btn-primary mb1 bg-teal") %>
+      <% end %>
     <%end%>
   <%end%>
+  </br>
 
+  <h1>Github Users You're Following </h1>
+  <%= content_tag :div, id:"github_following" do %>
+    <% @facade.following.each do |following|%>
+      <%= link_to following.username, following.url, class: "following"%>
+      <% if following.is_user? && !current_user.has_friend?(following.id) %>
+        <%= button_to('Add as Friend', create_friendship_path(id: following.id), method: :post, class: "btn btn-primary mb1 bg-teal") %>
+      <% end %>
+      </br>
+    <%end%>
+  <%end%>
+  </br>
+
+  <h1>Github Repos </h1>
+  <%= content_tag :div, id:"github_repos" do %>
+    <% @facade.repos(quantity: 5).each do |repo|%>
+      <%= link_to repo.name, repo.url, class: "repo"%>
+      </br>
+    <%end%>
+  <%end%>
 </section>
