@@ -117,7 +117,7 @@ RSpec.feature "User dashboard:", type: :feature do
     end
 
 
-    it 'can see suggested friendships' do
+    it 'can see suggested friendships in followers and following sections' do
       followers = File.open("./spec/fixtures/followers.json")
       stub_request(:get, "https://api.github.com/user/followers")
         .to_return({body: followers})
@@ -133,9 +133,11 @@ RSpec.feature "User dashboard:", type: :feature do
 
       visit dashboard_path
 
-      within ".suggested_friendships" do 
-        expect(page).to have_link("Add as Friend")
-        expect(page).to have_content(user_1.first_name)
+      within "#github_following" do
+        expect(page).to have_button("Add as Friend")
+      end
+      within "#github_followers" do
+        expect(page).to have_button("Add as Friend")
       end
     end
 
@@ -155,13 +157,41 @@ RSpec.feature "User dashboard:", type: :feature do
 
       visit dashboard_path
 
-      click_on "Add as Friend"
+      click_on("Add as Friend", match: :first)
 
       expect(page).to have_current_path(dashboard_path)
-      within ".friendships" do 
-        expect(page).to_not have_link("Add as Friend")
+
+      within ".friendships" do
         expect(page).to have_content(user_1.first_name)
       end
+
+      within "#github_following" do
+        expect(page).to_not have_button("Add as Friend")
+      end
+
+      within "#github_followers" do
+        expect(page).to_not have_button("Add as Friend")
+      end
+    end
+
+    it 'prevents friending with nil user and sends alert' do
+      user = create(:user, id: 1)
+
+      page.driver.post(login_path, "session[email]" => user.email, "session[password]" => user.password)
+
+      page.driver.post(create_friendship_path, id: 2)
+
+      click_on "redirected"
+      expect(page).to have_content("User does not exist")
+    end
+
+    it 'prevents friending unless logged in' do
+      user_1 = create(:user)
+
+      page.driver.post(create_friendship_path, id: user_1.id)
+
+      click_on "redirected"
+      expect(page).to have_content("You must be logged in to add friends")
     end
 
     def stub_omniauth
@@ -177,4 +207,3 @@ RSpec.feature "User dashboard:", type: :feature do
     end
   end
 end
-

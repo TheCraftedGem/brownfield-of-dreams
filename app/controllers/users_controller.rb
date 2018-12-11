@@ -1,6 +1,10 @@
 class UsersController < ApplicationController
-  
+
   def show
+    unless current_user
+      render "sessions/new"
+      return
+    end
     @facade = UserDashboardFacade.new(current_user)
   end
 

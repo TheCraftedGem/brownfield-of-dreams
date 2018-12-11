@@ -20,6 +20,26 @@
       "site_admin": false
   },
   {
+    "login": "wfischer42",
+    "id": 16843426,
+    "node_id": "MDQ6VXNlcjE2ODQzNDI2",
+    "avatar_url": "https://avatars3.githubusercontent.com/u/16843426?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/wfischer42",
+    "html_url": "https://github.com/wfischer42",
+    "followers_url": "https://api.github.com/users/wfischer42/followers",
+    "following_url": "https://api.github.com/users/wfischer42/following{/other_user}",
+    "gists_url": "https://api.github.com/users/wfischer42/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/wfischer42/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/wfischer42/subscriptions",
+    "organizations_url": "https://api.github.com/users/wfischer42/orgs",
+    "repos_url": "https://api.github.com/users/wfischer42/repos",
+    "events_url": "https://api.github.com/users/wfischer42/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/wfischer42/received_events",
+    "type": "User",
+    "site_admin": false
+  },
+  {
       "login": "MaryBork",
       "id": 38509894,
       "node_id": "MDQ6VXNlcjM4NTA5ODk0",
