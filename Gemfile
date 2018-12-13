@@ -28,6 +28,7 @@ gem 'acts-as-taggable-on', '~> 6.0'
 gem 'omniauth-census', git: "https://github.com/turingschool-projects/omniauth-census"
 gem 'omniauth-github'
 gem "table_print"
+gem "sprockets-es6"
 
 
 group :development, :test do
