@@ -14,7 +14,14 @@
     <%=button_to "Connect on GitHub", '/auth/github', method: 'get', class: "btn btn-primary mb1 bg-teal"%>
   <% end %>
   <section>
-    <h1>Bookmarked Segments</h1>
+      <%= content_tag :div, id:"bookmarks" do %>
+      <h1>Bookmarked Segments</h1>
+        <% @facade.bookmarks.each do |bookmark| %>
+          <%= bookmark.title %>
+          </br>
+           Tutorial: <%= bookmark.tutorial_title %>
+      <% end %>
+  <%end%>
   </section>
 </br>
 
@@ -63,3 +70,7 @@
     <%end%>
   <%end%>
 </section>
+
+
+
+
