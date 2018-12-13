@@ -242,7 +242,6 @@ RSpec.feature "User dashboard:", type: :feature do
 
     visit dashboard_path
 
-
     visit tutorial_path(tutorial)
 
     click_on 'Bookmark'
@@ -254,16 +253,18 @@ RSpec.feature "User dashboard:", type: :feature do
   it 'can see bookmarked videos on their dashboard' do
     tutorial_1 = create(:tutorial, title: "How to Ruby")
     tutorial_2 = create(:tutorial, title: "How to Find Books")
+  
     video_1 = create(:video, title: "Ruby The Hard Way", tutorial_id: tutorial_1.id, position: 0)
     video_2 = create(:video, title: "Don't Do Stupid", tutorial_id: tutorial_1.id, position: 1)
     video_3 = create(:video, title: "For The Love Of Rails", tutorial_id: tutorial_2.id, position: 1)
     video_4 = create(:video, title: "Bagels And Databases", tutorial_id: tutorial_2.id, position: 0)
+    
     user_1 = create(:user)
+
     github_profile_1 = create(:github_profile, user: user_1, uid: 16843426, token: ENV["GH_TOKEN_1"])
+  
     user_video_1 = create(:user_video, user_id: user_1.id, video_id: video_1.id)
     user_video_2 = create(:user_video, user_id: user_1.id, video_id: video_2.id)
-    _1_video_3 = create(:user_video, user_id: user_1.id, video_id: video_3.id)
-    user_video_4 = create(:user_video, user_id: user_1.id, video_id: video_4.id)
     
     page.driver.post(login_path, "session[email]" => user_1.email, "session[password]" => user_1.password)
     
@@ -271,7 +272,6 @@ RSpec.feature "User dashboard:", type: :feature do
 
     within("#bookmarks") do
       expect(page).to have_content("Bookmarked Segments")
-      save_and_open_page
     end
 end
 
