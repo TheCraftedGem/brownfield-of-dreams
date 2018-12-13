@@ -194,6 +194,32 @@ RSpec.feature "User dashboard:", type: :feature do
       expect(page).to have_content("You must be logged in to add friends")
     end
 
+    it "gets validates email message" do
+      # TODO: Move to login spec
+      first_name = "oscar"
+      visit "/"
+      click_on "Register"
+
+      fill_in "user[email]", with: "test@test.com"
+      fill_in "user[first_name]", with: first_name
+      fill_in "user[last_name]", with: "test"
+      fill_in "user[password]", with: "test"
+      fill_in "user[password_confirmation]", with: "test"
+
+      click_on "Create Account"
+      expect(page).to have_current_path(dashboard_path)
+      expect(page).to have_content("Logged in as #{first_name}")
+      expect(page).to have_content("This account has not yet been activated. Please check your email.")
+      expect(User.first.active?).to be false
+
+      last_email = ActionMailer::Base.deliveries.last
+      expect(last_email.subject).to include(first_name)
+
+      visit user_activation_path(id: User.first.id)
+      expect(page).to have_current_path(dashboard_path)
+      expect(User.first.active?).to be true
+    end
+
     def stub_omniauth
       OmniAuth.config.test_mode = true
       OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash

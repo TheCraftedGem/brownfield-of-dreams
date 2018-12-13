@@ -25,8 +25,11 @@ describe 'visitor can create an account', :js, :vcr do
     fill_in 'user[password_confirmation]', with: password
 
     click_on'Create Account'
-
     expect(current_path).to eq(dashboard_path)
+
+    User.last.update(active:true)
+
+    visit "/dashboard"
 
     expect(page).to have_content(email)
     expect(page).to have_content(first_name)

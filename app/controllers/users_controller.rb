@@ -5,7 +5,12 @@ class UsersController < ApplicationController
       render "sessions/new"
       return
     end
-    @facade = UserDashboardFacade.new(current_user)
+    if current_user.active?
+      @facade = UserDashboardFacade.new(current_user)
+      render "users/active/show"
+    else
+      render "users/inactive/show"
+    end
   end
 
   def new
@@ -16,6 +21,7 @@ class UsersController < ApplicationController
     user = User.create(user_params)
     if user.save
       session[:user_id] = user.id
+      UserMailer.welcome_email(current_user, request.base_url).deliver_now
       redirect_to dashboard_path
     else
       flash[:error] = 'Username already exists'
