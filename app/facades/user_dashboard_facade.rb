@@ -24,4 +24,8 @@ class UserDashboardFacade
   def friends 
     user.friends
   end
+
+  def bookmarks
+    user.bookmarks
+  end
 end

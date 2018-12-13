@@ -52,5 +52,11 @@ class User < ApplicationRecord
     value = friend_ids.include?(id)
   end
 
+    def bookmarks
+      self.videos.joins(:tutorial).
+      select('videos.title, videos.position, tutorials.title AS tutorial_title')
+      .order('tutorial_title, position')  
+    end
+
   # TODO: Create methods for the github info for users that aren't found with the 'find_with_profiles' method (e.g. def github_key)
 end
