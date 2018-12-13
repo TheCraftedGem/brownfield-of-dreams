@@ -10,7 +10,7 @@ class User < ApplicationRecord
   has_many :amigos,  through: :amigo_friends
 
   validates :email, uniqueness: true, presence: true
-  validates_presence_of :password
+  validates_presence_of :password, on: :create
   validates_presence_of :first_name
   enum role: [:default, :admin]
   has_secure_password
@@ -51,6 +51,12 @@ class User < ApplicationRecord
   def has_friend?(id)
     value = friend_ids.include?(id)
   end
+
+    def bookmarks
+      self.videos.joins(:tutorial).
+      select('videos.title, videos.position, tutorials.title AS tutorial_title')
+      .order('tutorial_title, position')  
+    end
 
   # TODO: Create methods for the github info for users that aren't found with the 'find_with_profiles' method (e.g. def github_key)
 end
