@@ -1,5 +1,5 @@
 class UserMailer < ApplicationMailer
-  default
+  # TODO: Add security to the activation process.
   def welcome_email(user, host)
     @user = user
     @activation_url = user_activation_url(id: user.id, host: host)
