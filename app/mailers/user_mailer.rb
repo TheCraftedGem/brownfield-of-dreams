@@ -1,4 +1,6 @@
 class UserMailer < ApplicationMailer
+  default from: "Brownfield@brownfield.com"
+
   # TODO: Add security to the activation process.
   def welcome_email(user, host)
     @user = user
