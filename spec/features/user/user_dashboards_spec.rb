@@ -237,63 +237,61 @@ RSpec.feature "User dashboard:", type: :feature do
       expect(page).to have_content("Bookmark added to your dashboard")
     end
 
-  it "can't add the same bookmark more than once" do
-    tutorial= create(:tutorial)
-    video = create(:video, tutorial_id: tutorial.id)
-    user_1 = create(:user)
-    user_2 = create(:user)
+    it "can't add the same bookmark more than once" do
+      tutorial= create(:tutorial)
+      video = create(:video, tutorial_id: tutorial.id)
+      user_1 = create(:user)
+      user_2 = create(:user)
 
-    github_profile_1 = create(:github_profile, user: user_1, uid: 16843426, token: ENV["GH_TOKEN_1"])
-    github_profile_2 = create(:github_profile, user: user_2, uid: 38091448, token: ENV["GH_TOKEN_2"])
+      github_profile_1 = create(:github_profile, user: user_1, uid: 16843426, token: ENV["GH_TOKEN_1"])
+      github_profile_2 = create(:github_profile, user: user_2, uid: 38091448, token: ENV["GH_TOKEN_2"])
 
-    page.driver.post(login_path, "session[email]" => user_2.email, "session[password]" => user_2.password)
+      page.driver.post(login_path, "session[email]" => user_2.email, "session[password]" => user_2.password)
 
-    visit dashboard_path
+      visit dashboard_path
 
-    visit tutorial_path(tutorial)
+      visit tutorial_path(tutorial)
 
-    click_on 'Bookmark'
-    expect(page).to have_content("Bookmark added to your dashboard")
-    click_on 'Bookmark'
-    expect(page).to have_content("Already in your bookmarks")
-  end
-
-  it 'can see bookmarked videos on their dashboard' do
-    tutorial_1 = create(:tutorial, title: "How to Ruby")
-    tutorial_2 = create(:tutorial, title: "How to Find Books")
-  
-    video_1 = create(:video, title: "Ruby The Hard Way", tutorial_id: tutorial_1.id, position: 0)
-    video_2 = create(:video, title: "Don't Do Stupid", tutorial_id: tutorial_1.id, position: 1)
-    video_3 = create(:video, title: "For The Love Of Rails", tutorial_id: tutorial_2.id, position: 1)
-    video_4 = create(:video, title: "Bagels And Databases", tutorial_id: tutorial_2.id, position: 0)
-    
-    user_1 = create(:user)
-
-    github_profile_1 = create(:github_profile, user: user_1, uid: 16843426, token: ENV["GH_TOKEN_1"])
-  
-    user_video_1 = create(:user_video, user_id: user_1.id, video_id: video_1.id)
-    user_video_2 = create(:user_video, user_id: user_1.id, video_id: video_2.id)
-    
-    page.driver.post(login_path, "session[email]" => user_1.email, "session[password]" => user_1.password)
-    
-    visit dashboard_path
-
-    within("#bookmarks") do
-      expect(page).to have_content("Bookmarked Segments")
+      click_on 'Bookmark'
+      expect(page).to have_content("Bookmark added to your dashboard")
+      click_on 'Bookmark'
+      expect(page).to have_content("Already in your bookmarks")
     end
-end
 
+    it 'can see bookmarked videos on their dashboard' do
+      tutorial_1 = create(:tutorial, title: "How to Ruby")
+      tutorial_2 = create(:tutorial, title: "How to Find Books")
 
-    def stub_omniauth
-      OmniAuth.config.test_mode = true
-      OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash
-        .new( { 'provider'=>'github',
-                'uid' => '54321',
-                'credentials' => { 'token' => '12345' },
-                'info'=> {'nickname'=> 'jschmoe',
-                          'email'=> 'jschmoe@email',
-                          'image'=> 'https://image.url',
-                          'urls'=>{ 'GitHub'=>'https://github.com/user1'} } } )
+      video_1 = create(:video, title: "Ruby The Hard Way", tutorial_id: tutorial_1.id, position: 0)
+      video_2 = create(:video, title: "Don't Do Stupid", tutorial_id: tutorial_1.id, position: 1)
+      video_3 = create(:video, title: "For The Love Of Rails", tutorial_id: tutorial_2.id, position: 1)
+      video_4 = create(:video, title: "Bagels And Databases", tutorial_id: tutorial_2.id, position: 0)
+
+      user_1 = create(:user)
+
+      github_profile_1 = create(:github_profile, user: user_1, uid: 16843426, token: ENV["GH_TOKEN_1"])
+
+      user_video_1 = create(:user_video, user_id: user_1.id, video_id: video_1.id)
+      user_video_2 = create(:user_video, user_id: user_1.id, video_id: video_2.id)
+
+      page.driver.post(login_path, "session[email]" => user_1.email, "session[password]" => user_1.password)
+
+      visit dashboard_path
+
+      within("#bookmarks") do
+        expect(page).to have_content("Bookmarked Segments")
+      end
     end
   end
+  def stub_omniauth
+    OmniAuth.config.test_mode = true
+    OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash
+    .new( { 'provider'=>'github',
+      'uid' => '54321',
+      'credentials' => { 'token' => '12345' },
+      'info'=> {'nickname'=> 'jschmoe',
+        'email'=> 'jschmoe@email',
+        'image'=> 'https://image.url',
+        'urls'=>{ 'GitHub'=>'https://github.com/user1'} } } )
+      end
 end
