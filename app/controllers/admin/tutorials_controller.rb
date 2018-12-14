@@ -4,6 +4,8 @@ class Admin::TutorialsController < Admin::BaseController
   end
 
   def create
+    tutorial = Tutorial.create(tutorial_params)
+    redirect_to tutorial_path()
   end
 
   def new

@@ -38,6 +38,8 @@ Rails.application.routes.draw do
   delete '/auth/github/cancel', to: 'github_profiles#destroy'
   post '/create_friendship', to: 'friendships#create'
 
+  post '/github_invite', to: 'github_invite#create', as: 'github_invite'
+
   # Is this being used?
   get '/video', to: 'video#show'
 

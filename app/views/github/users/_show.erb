@@ -2,3 +2,15 @@
 <br />
 GitHub Account: <%= link_to current_user.github_username, current_user.github_url%>
 <%=button_to "Disconnect GitHub Account", '/auth/github/cancel', method: 'delete', class: "btn btn-primary mb1 bg-teal"%>
+<div class="search-bar bar">
+  <div class=" search-field col md-col-3">
+    <%= form_tag(github_invite_path, method: :post, id: "github-search") do %>
+      <%= text_field_tag "handle", params[:position], placeholder: "github handle..." %>
+      <%= submit_tag "Send Invitation"  %>
+    <% end %>
+  </div>
+  <div class="col md-col-9">
+    <div class="category">
+    </div>
+  </div>
+</div>

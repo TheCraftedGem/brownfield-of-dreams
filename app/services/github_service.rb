@@ -8,8 +8,8 @@ class GithubService
     new(token)
   end
 
-  def get(type)
-    get_json("/user/" + type.to_s)
+  def get(type, path: "user")
+    get_json("/#{path}/" + type.to_s)
   end
 
   private
