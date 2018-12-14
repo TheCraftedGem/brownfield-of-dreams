@@ -29,6 +29,7 @@ gem 'omniauth-census', git: "https://github.com/turingschool-projects/omniauth-c
 gem 'omniauth-github'
 gem "table_print"
 gem "sprockets-es6"
+gem 'sendgrid-ruby'
 
 
 group :development, :test do
